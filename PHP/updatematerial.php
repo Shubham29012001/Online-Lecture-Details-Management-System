@@ -8,12 +8,13 @@ if ($_SESSION['Loggedin'] == true) {
   $deadline = $_SESSION['updatedeadline'];
   $type = $_SESSION['type'];
   $token = $_SESSION['token'];
+  $link = $_SESSION['link'];
   // echo $type;
 
   $conn = mysqli_connect('localhost', 'root', '', 'ip_project');
 
-  if (isset($_POST['Submit'])) 
-  {
+  if (isset($_POST['Submit'])) {
+
     if ($type == '.pdf') {
       // echo $id;
       $newfilename = $_FILES['file']['name'];
@@ -21,130 +22,250 @@ if ($_SESSION['Loggedin'] == true) {
       $pdfpath = '../upload/pdf/';
       //$deadline = $_POST['deadline'];
       $select = "SELECT id from pdfmaterials WHERE id = $id";
-      $selectrun = mysqli_query($conn,$select);
+      $selectrun = mysqli_query($conn, $select);
       $row = mysqli_num_rows($selectrun);
-      if($row == 1)
-      {
+      if ($row == 1) {
         $update = "UPDATE pdfmaterials set topicname = '$topicname', file_name = '$newfilename', directory = '$pdfpath$newfilename' where id = $id and token = '$token'";
-        if (mysqli_query($conn, $update)) 
-        {
+        if (mysqli_query($conn, $update)) {
 
-          if (move_uploaded_file($_FILES['file']['tmp_name'], '../upload/pdf/' . $newfilename)) 
-          {
+          if (move_uploaded_file($_FILES['file']['tmp_name'], '../upload/pdf/' . $newfilename)) {
             $_SESSION['Updatemsg'] = "PDF Updated";
             $_SESSION['updatetopicname'] = $topicname;
             $_SESSION['updatefilename'] = $newfilename;
-          } 
-          else 
-          {
+          } else {
             $update = "UPDATE pdfmaterials set topicname = '$topicname', file_name = '$filename', directory = '$pdfpath$filename' where id = $id and token = '$token'";
-            $updaterun = mysqli_query($conn,$update);
+            $updaterun = mysqli_query($conn, $update);
             $_SESSION['updatetopicname'] = $topicname;
-            $_SESSION['Updatemsg'] = "Changes Done Successfully";        
+            $_SESSION['Updatemsg'] = "Changes Done Successfully";
           }
         }
+      } else {
+        $_SESSION['Updatemsg']  = "ID Not Found";
       }
-      else{
-          $_SESSION['Updatemsg']  = "ID Not Found";
+    }
 
-      }
-    } 
-
-    if ($type == '.pptx') 
-    {
+    if ($type == '.pptx') {
       // echo $id;
       $newfilename = $_FILES['file']['name'];
 
       $topicname = $_POST['TopicName'];
       $pptpath = '../upload/ppt/';
       //$deadline = $_POST['deadline'];
-      $select = "SELECT id from pdfmaterials WHERE id = $id";
-      $selectrun = mysqli_query($conn,$select);
+      $select = "SELECT id from pptmaterials WHERE id = $id";
+      $selectrun = mysqli_query($conn, $select);
       $row = mysqli_num_rows($selectrun);
-      if($row == 1)
-      {
+      if ($row == 1) {
         $update = "UPDATE pptmaterials set topicname = '$topicname', file_name = '$newfilename', directory = '$pptpath$newfilename' where id = $id and token = '$token'";
-        if (mysqli_query($conn, $update)) 
-        {
+        if (mysqli_query($conn, $update)) {
 
           if (move_uploaded_file($_FILES['file']['tmp_name'], '../upload/ppt/' . $newfilename)) {
             $_SESSION['Updatemsg'] = "PPT Updated";
             $_SESSION['updatetopicname'] = $topicname;
             $_SESSION['updatefilename'] = $newfilename;
-          } 
-          else 
-          {
+          } else {
             $update = "UPDATE pptmaterials set topicname = '$topicname', file_name = '$filename', directory = '$pptpath$filename' where id = $id and token = '$token'";
-            $updaterun = mysqli_query($conn,$update);
+            $updaterun = mysqli_query($conn, $update);
             $_SESSION['updatetopicname'] = $topicname;
             $_SESSION['Updatemsg'] = "Changes Done Successfully";
           }
-        } 
-      }
-      else {
+        }
+      } else {
         $_SESSION['Updatemsg']  = "ID Not Found";
       }
-    } 
-    
+    }
+
+    if ($type == '.docx') {
+      // echo $id;
+      $newfilename = $_FILES['file']['name'];
+
+      $topicname = $_POST['TopicName'];
+      $assignpath = '../upload/assignments/';
+      $newdeadline = $_POST['deadline'];
+      $_SESSION['updatedeadline'] = $newdeadline;
+      $select = "SELECT id from assignment WHERE id = $id";
+      $link = $_POST['Submission'];
+      $_SESSION['link'] = $link;
+      $selectrun = mysqli_query($conn, $select);
+      $row = mysqli_num_rows($selectrun);
+      if ($row == 1) {
+        $update = "UPDATE assignment set topicname = '$topicname', file_name = '$newfilename', directory = '$assignpath$newfilename', deadline_on = '$deadline', submission = '$link' where id = $id and token = '$token'";
+        if (mysqli_query($conn, $update)) {
+
+          if (move_uploaded_file($_FILES['file']['tmp_name'], '../upload/assignments/' . $newfilename)) {
+            $_SESSION['Updatemsg'] = "Assignment Updated";
+            $_SESSION['updatetopicname'] = $topicname;
+            $_SESSION['updatefilename'] = $newfilename;
+            $_SESSION['link'] = $link;
+          } else {
+            $update = "UPDATE assignment set topicname = '$topicname', file_name = '$filename', directory = '$assignpath$filename', deadline_on = '$deadline' where id = $id and token = '$token'";
+            $updaterun = mysqli_query($conn, $update);
+            $_SESSION['updatetopicname'] = $topicname;
+            $_SESSION['Updatemsg'] = "Changes Done Successfully";
+            $_SESSION['link'] = $link;
+          }
+        }
+      } else {
+        $_SESSION['Updatemsg']  = "ID Not Found";
+      }
+    }
+
+    if ($type == '.quiz') {
+      // echo $id;
+      $topicname = $_POST['TopicName'];
+      $newdeadline = $_POST['deadline'];
+      $_SESSION['updatedeadline'] = $newdeadline;
+      $select = "SELECT id from quiz WHERE id = $id";
+      $link = $_POST['Submission'];
+      $_SESSION['link'] = $link;
+      $selectrun = mysqli_query($conn, $select);
+      $row = mysqli_num_rows($selectrun);
+      if ($row == 1) {
+        $update = "UPDATE quiz set topicname = '$topicname',  URL = '$link', deadline_no = '$deadline' where id = $id and token = '$token'";
+        if (mysqli_query($conn, $update)) {
+          $_SESSION['Updatemsg'] = "Quiz Updated";
+          $_SESSION['updatetopicname'] = $topicname;
+          $_SESSION['deadline'] = $deadline;
+          $_SESSION['link'] = $link;
+        } else {
+          $_SESSION['Updatemsg'] = "Not Updated";
+        }
+      } else {
+        $_SESSION['Updatemsg']  = "ID Not Found";
+      }
+    }
+
+    if ($type == '.video') {
+      // echo $id;
+      $topicname = $_POST['TopicName'];
+      $select = "SELECT id from video WHERE id = $id";
+      $link = $_POST['Submission'];
+      $_SESSION['link'] = $link;
+      $selectrun = mysqli_query($conn, $select);
+      $row = mysqli_num_rows($selectrun);
+      if ($row == 1) {
+        $update = "UPDATE video set topicname = '$topicname',  URL = '$link' where id = $id and token = '$token'";
+        if (mysqli_query($conn, $update)) {
+          $_SESSION['Updatemsg'] = "Video Updated";
+          $_SESSION['updatetopicname'] = $topicname;
+          $_SESSION['link'] = $link;
+        } else {
+          $_SESSION['Updatemsg'] = "Not Updated";
+        }
+      } else {
+        $_SESSION['Updatemsg']  = "ID Not Found";
+      }
+    }
   }
 
-  if (isset($_POST['Delete'])) 
-  {
-    if ($type == '.pdf') 
-    {
+  if (isset($_POST['Delete'])) {
+    if ($type == '.pdf') {
       $select = "SELECT id from pdfmaterials WHERE id = $id";
-      $selectrun = mysqli_query($conn,$select);
+      $selectrun = mysqli_query($conn, $select);
       $row = mysqli_num_rows($selectrun);
-      if($row == 1)
-      {
+      if ($row == 1) {
         $pdfpath = '../upload/pdf/';
         $delete = "DELETE FROM pdfmaterials WHERE id= $id";
-        if (mysqli_query($conn, $delete)) 
-        {
-            unlink($pdfpath . "/" . $filename);
-            $_SESSION['Updatemsg'] = "PDF Deleted Successfully";
-        } 
-        else 
-        {
-            $_SESSION['Updatemsg'] = "Failed to Delete";
-        }    
+        if (mysqli_query($conn, $delete)) {
+          unlink($pdfpath . "/" . $filename);
+          $_SESSION['Updatemsg'] = "PDF Deleted Successfully";
+        } else {
+          $_SESSION['Updatemsg'] = "Failed to Delete";
+        }
+      } else {
+        $_SESSION['Updatemsg'] = "Already Deleted";
       }
-      else
+    }
+
+    if ($type == '.pptx') {
+      $select = "SELECT id from pptmaterials WHERE id = $id";
+      $selectrun = mysqli_query($conn, $select);
+      $row = mysqli_num_rows($selectrun);
+      if ($row == 1) {
+        $pptpath = '../upload/ppt/';
+        $delete = "DELETE FROM pptmaterials WHERE id= $id";
+        if (mysqli_query($conn, $delete)) {
+          unlink($pptpath . "/" . $filename);
+          $_SESSION['Updatemsg'] = "PPT Deleted Successfully";
+        } else {
+          $_SESSION['Updatemsg'] = "Failed to Delete";
+        }
+      } else {
+        $_SESSION['Updatemsg'] = "Already Deleted";
+      }
+    }
+
+    if ($type == '.docx') 
+    {
+      $select = "SELECT id from assignment WHERE id = $id";
+      $selectrun = mysqli_query($conn, $select);
+      $row = mysqli_num_rows($selectrun);
+      if ($row == 1) 
+      {
+        $assignpath = '../upload/assignments/';
+        $delete = "DELETE FROM assignment WHERE id= $id";
+        if (mysqli_query($conn, $delete)) {
+          unlink($assignpath . "/" . $filename);
+          $_SESSION['Updatemsg'] = "Assignment Deleted Successfully";
+        } 
+        else {
+          $_SESSION['Updatemsg'] = "Failed to Delete";
+        }
+      } 
+      else 
       {
         $_SESSION['Updatemsg'] = "Already Deleted";
       }
     }
 
-    if ($type == '.pptx') 
+    if ($type == '.quiz') 
     {
-      $select = "SELECT id from pptmaterials WHERE id = $id";
-      $selectrun = mysqli_query($conn,$select);
+      $select = "SELECT id from quiz WHERE id = $id";
+      $selectrun = mysqli_query($conn, $select);
       $row = mysqli_num_rows($selectrun);
-      if($row == 1)
+      if ($row == 1) 
       {
-        $pptpath = '../upload/ppt/';
-        $delete = "DELETE FROM pptmaterials WHERE id= $id";
+        $delete = "DELETE FROM quiz WHERE id= $id";
         if (mysqli_query($conn, $delete)) 
         {
-            unlink($pptpath . "/" . $filename);
-            $_SESSION['Updatemsg'] = "PPT Deleted Successfully";
+          $_SESSION['Updatemsg'] = "Quiz Deleted Successfully";
         } 
         else 
         {
-            $_SESSION['Updatemsg'] = "Failed to Delete";
-        }    
-      }
-      else
+          $_SESSION['Updatemsg'] = "Failed to Delete";
+        }
+      } 
+      else 
       {
         $_SESSION['Updatemsg'] = "Already Deleted";
       }
     }
-    
+
+    if ($type == '.video') 
+    {
+      $select = "SELECT id from video WHERE id = $id";
+      $selectrun = mysqli_query($conn, $select);
+      $row = mysqli_num_rows($selectrun);
+      if ($row == 1) 
+      {
+        $delete = "DELETE FROM video WHERE id= $id";
+        if (mysqli_query($conn, $delete)) 
+        {
+          $_SESSION['Updatemsg'] = "Video Deleted Successfully";
+        } 
+        else 
+        {
+          $_SESSION['Updatemsg'] = "Failed to Delete";
+        }
+      } 
+      else 
+      {
+        $_SESSION['Updatemsg'] = "Already Deleted";
+      }
+    }
   }
 
   mysqli_close($conn);
-} 
-else {
+} else {
   if ($_SESSION['Loggedin'] == false) {
     header("location:../php/login.php");
   }
@@ -244,68 +365,178 @@ else {
     <br />
     <div class="container">
       <form class="Form" action="<?php echo htmlentities($_SERVER['PHP_SELF']); ?>" method="POST" enctype="multipart/form-data">
-        <div class="row">
-          <div class="col-25">
-            <label for="Topic">Topic Name:</label>
-          </div>
-          <div class="col-75">
-            <input name="TopicName" value="<?php echo $_SESSION['updatetopicname'] ?>" type="text" size="30" id="Topic" placeholder="Enter the Chapter Topic Name" required />
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col-25">
-            <label for="currentmaterial">Current File</label>
-          </div>
-          <div class="col-75">
-            <input name="CurrentMaterial" value="<?php echo $_SESSION['updatefilename'] ?>" disabled type="text" size="30" id="currentmaterial" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-25">
-            <label for="Choose_Material">Choose File:</label>
-          </div>
-          <div class="col-75">
-            <input type="file" value="<?php echo $_SESSION['updatedeadline'] ?>" name="file" accept="<?php echo $type ?>" id="Choose_Material" />
-          </div>
-        </div>
         <?php
-        if ($type == ".assignment") { ?>
+
+        if ($type == ".pdf" || $type == ".pptx") { ?>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="Topic">Topic Name:</label>
+            </div>
+            <div class="col-75">
+              <input name="TopicName" value="<?php echo $_SESSION['updatetopicname'] ?>" type="text" size="30" id="Topic" placeholder="Enter the Chapter Topic Name" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="currentmaterial">Current File</label>
+            </div>
+            <div class="col-75">
+              <input name="CurrentMaterial" value="<?php echo $_SESSION['updatefilename'] ?>" disabled type="text" size="30" id="currentmaterial" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="Choose_Material">Choose File:</label>
+            </div>
+            <div class="col-75">
+              <input type="file" name="file" accept="<?php echo $type ?>" id="Choose_Material" />
+            </div>
+          </div>
+
+        <?php } ?>
+
+        <?php
+        if ($type == ".docx") { ?>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="Topic">Topic Name:</label>
+            </div>
+            <div class="col-75">
+              <input name="TopicName" value="<?php echo $_SESSION['updatetopicname'] ?>" type="text" size="30" id="Topic" placeholder="Enter the Chapter Topic Name" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="currentmaterial">Current File</label>
+            </div>
+            <div class="col-75">
+              <input name="CurrentMaterial" value="<?php echo $_SESSION['updatefilename'] ?>" disabled type="text" size="30" id="currentmaterial" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="Dead_Date">Deadline Date:</label>
+            </div>
+            <div class="col-75">
+              <input name="deadline" value="<?php echo $_SESSION['updatedeadline'] ?>" type="datetime-local" placeholder="Enter the Deadline Time" id="Dead_Date" />
+            </div>
+          </div>
 
           <div class="row">
             <div class="col-25">
               <label for="Submission">Submission URL:</label>
             </div>
             <div class="col-75">
-              <input name="Submission" type="text" size="30" value="<?php echo $_POST['Submission'] ?? ''; ?>" id="Submission" placeholder="Enter the Assignment Submission URL">
+              <input name="Submission" type="text" size="30" value="<?php echo $_SESSION['link'] ?>" id="Submission" placeholder="Enter the Assignment Submission URL">
             </div>
-
-            <div class="row">
-              <div class="col-25">
-                <label for="Dead_Date">Deadline Date:</label>
-              </div>
-              <div class="col-75">
-                <input name="deadline" value="<?php echo $_SESSION['updatedeadline'] ?>" type="datetime-local" placeholder="Enter the Deadline Time" value="" id="Dead_Date" required />
-              </div>
-            </div>
-
-
-
-          <?php } ?>
-
-          <div class="checkemail">
-            <p class="checkemailmsg <?php if (isset($_SESSION['Updatemsg'])) echo "display"; ?>">
-              <?php
-              if (isset($_SESSION['Updatemsg'])) {
-                echo $_SESSION['Updatemsg'];
-              }
-              ?>
-            </p>
           </div>
 
-          <input name="Submit" type="submit" id="Submit" value="Update" />
-          <input name="Delete" type="submit" id="Delete" value="Delete" />
+          <div class="row">
+            <div class="col-25">
+              <label for="Choose_Material">Choose File:</label>
+            </div>
+            <div class="col-75">
+              <input type="file" name="file" accept="<?php echo $type ?>" id="Choose_Material" />
+            </div>
+          </div>
+
+        <?php }
+
+        if ($type == ".quiz") { ?>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="Topic">Topic Name:</label>
+            </div>
+            <div class="col-75">
+              <input name="TopicName" value="<?php echo $_SESSION['updatetopicname'] ?>" type="text" size="30" id="Topic" placeholder="Enter the Chapter Topic Name" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="Dead_Date">Deadline Date:</label>
+            </div>
+            <div class="col-75">
+              <input name="deadline" value="<?php echo $_SESSION['updatedeadline'] ?>" type="datetime-local"  id="Dead_Date" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="currentmaterial">Current URL</label>
+            </div>
+            <div class="col-75">
+              <input name="CurrentMaterial" value="<?php echo $_SESSION['link'] ?>" disabled type="text" size="30" id="currentmaterial" />
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-25">
+              <label for="Submission">Submission URL:</label>
+            </div>
+            <div class="col-75">
+              <input name="Submission" type="text" size="30" value="<?php echo $link ?>" id="Submission" placeholder="Enter the Assignment Submission URL">
+            </div>
+          </div>
+
+
+        <?php }
+
+        if ($type == ".video") { ?>
+
+          <div class="row">
+            <div class="col-25">
+              <label for="Topic">Topic Name:</label>
+            </div>
+            <div class="col-75">
+              <input name="TopicName" value="<?php echo $_SESSION['updatetopicname'] ?>" type="text" size="30" id="Topic" placeholder="Enter the Chapter Topic Name" required />
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-25">
+              <label for="currentmaterial">Current URL</label>
+            </div>
+            <div class="col-75">
+              <input name="CurrentMaterial" value="<?php echo $_SESSION['link'] ?>" disabled type="text" size="30" id="currentmaterial" />
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-25">
+              <label for="Submission">Submission URL:</label>
+            </div>
+            <div class="col-75">
+              <input name="Submission" type="text" size="30" value="<?php echo $link ?>" id="Submission" placeholder="Enter the Assignment Submission URL">
+            </div>
+          </div>
+
+        <?php } ?>
+
+        <div class="checkemail">
+          <p class="checkemailmsg <?php if (isset($_SESSION['Updatemsg'])) echo "display"; ?>">
+            <?php
+            if (isset($_SESSION['Updatemsg'])) {
+              echo $_SESSION['Updatemsg'];
+            }
+            ?>
+          </p>
+        </div>
+
+
+        <input name="Submit" type="submit" id="Submit" value="Update" />
+        <input name="Delete" type="submit" id="Delete" value="Delete" />
       </form>
     </div>
   </main>

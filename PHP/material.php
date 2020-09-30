@@ -53,7 +53,7 @@ if($_SESSION['Loggedin'] == true)
                     if (mail($Email, $subject, $body, $headers)) 
                     {
                         $a++;
-                        echo "Email successfully sent to $Email...";
+                        //echo "Email successfully sent to $Email...";
                     } else {
                         echo "Email sending failed...";
                     }
@@ -116,7 +116,7 @@ if($_SESSION['Loggedin'] == true)
 
                     if (mail($Email, $subject, $body, $headers)) {
                         $a++;
-                        echo "Email successfully sent to $Email...";
+                        //echo "Email successfully sent to $Email...";
                     } else {
                         echo "Email sending failed...";
                     }
@@ -182,7 +182,7 @@ if($_SESSION['Loggedin'] == true)
 
                     if (mail($Email, $subject, $body, $headers)) {
                         $a++;
-                        echo "Email successfully sent to $Email...";
+                      //  echo "Email successfully sent to $Email...";
                     } else {
                         echo "Email sending failed...";
                     }
@@ -232,7 +232,7 @@ if($_SESSION['Loggedin'] == true)
                 $headers = "From: smmauryatwo@gmail.com";
 
                 if (mail($Email, $subject, $body, $headers)) {
-                    echo "Email successfully sent to $Email...";
+                 //   echo "Email successfully sent to $Email...";
                 } else {
                     echo "Email sending failed...";
                 }
@@ -274,7 +274,7 @@ if($_SESSION['Loggedin'] == true)
                 $headers = "From: smmauryatwo@gmail.com";
 
                 if (mail($Email, $subject, $body, $headers)) {
-                    echo "Email successfully sent to $Email...";
+                  //  echo "Email successfully sent to $Email...";
                 } else {
                     echo "Email sending failed...";
                 }

@@ -109,7 +109,7 @@ if (isset($_REQUEST['Submit']))
                             <label for="email">Email Address:</label>
                         </div>
                         <div class="col-75">
-                            <input value="<?php echo $_POST['Email'] ?? ''; ?>" name="Email" type="email" size="30" id="email" placeholder="Enter your Vcet Email Address" required>
+                            <input value="<?php echo $_POST['Email'] ?? ''; ?>" pattern=".+@vcet.edu.in" name="Email" type="email" size="30" id="email" placeholder="Enter your Vcet Email Address" required>
                         </div>
                     </div>
                 </div>

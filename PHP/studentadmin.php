@@ -399,7 +399,7 @@ else
                         <th>Uploaded Date</th>
                         <th>Deadline Date</th>
                         <th>View</th>
-                        <th>Submission</th>
+                        <th>Update</th>
                     </tr>
                     <?php
                     while ($row = mysqli_fetch_array($query_run)) {
@@ -413,7 +413,7 @@ else
                             <td><?php echo $row['uploaded_on'] ?></td>
                             <td><?php echo $row['deadline_on'] ?></td>
                             <td><a href="<?php echo $row['directory']; ?>" target="_blank"><button>Download</button></a></td>
-                            <td><a href="<?php echo $row['submission']; ?>" target="_blank"><button>Submit</button></a></td>
+                            <td><a href="trail.php?id=<?php echo $row['id']?>&topicname=<?php echo $row['topicname']?>&filename=<?php echo $row['file_name']?>&type=<?php echo '.docx'?>&token=<?php echo $token?>&deadline=<?php echo $row['deadline_on']?>&link=<?php echo $row['submission']?>"><button>Update</button></a></td>
                         </tr>
                     <?php
                     } ?>
@@ -434,10 +434,10 @@ else
                     <tr>
                         <th>Sr No</th>
                         <th>Topic Name</th>
-                        <th>URL</th>
                         <th>Uploaded Date</th>
                         <th>Deadline Date</th>
                         <th>View</th>
+                        <th>Update</th>
                     </tr>
                     <?php
                     while ($row = mysqli_fetch_array($query_run)) {
@@ -447,10 +447,10 @@ else
                         <tr>
                             <td><?php echo $c; ?></td>
                             <td><?php echo $row['topicname'] ?></td>
-                            <td><?php echo $row['URL'] ?></td>
                             <td><?php echo $row['uploaded_on'] ?></td>
                             <td><?php echo $row['deadline_no'] ?></td>
-                            <td><a href="<?php echo $row['URL']; ?>" target="_blank"><button>View</button></a></td>
+                            <td><a href="<?php echo $row['URL']; ?>" target="_blank"><button>View</button></a></td>    
+                            <td><a href="trail.php?id=<?php echo $row['id']?>&topicname=<?php echo $row['topicname']?>&filename=<?php echo $row['URL']?>&type=<?php echo '.quiz'?>&token=<?php echo $token?>&deadline=<?php echo $row['deadline_no']?>&link=<?php echo $row['URL']?>"><button>Update</button></a></td>                   
                         </tr>
                     <?php
                     } ?>
@@ -469,9 +469,9 @@ else
                     <tr>
                         <th>Sr No</th>
                         <th>Topic Name</th>
-                        <th>URL</th>
                         <th>Uploaded Date</th>
                         <th>View</th>
+                        <th>Update</th>
                     </tr>
                     <?php
                     while ($row = mysqli_fetch_array($query_run)) {
@@ -481,9 +481,9 @@ else
                         <tr>
                             <td><?php echo $d; ?></td>
                             <td><?php echo $row['topicname'] ?></td>
-                            <td><?php echo $row['URL'] ?></td>
                             <td><?php echo $row['uploaded_on'] ?></td>
                             <td><a href="<?php echo $row['URL']; ?>" target="_blank"><button>View</button></a></td>
+                            <td><a href="trail.php?id=<?php echo $row['id']?>&topicname=<?php echo $row['topicname']?>&filename=<?php echo $row['URL']?>&type=<?php echo '.video'?>&token=<?php echo $token?>&link=<?php echo $row['URL']?>"><button>Update</button></a></td>                   
                         </tr>
                 <?php
                     }

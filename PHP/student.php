@@ -419,7 +419,6 @@
                     <tr>
                         <th>Sr No</th>
                         <th>Topic Name</th>
-                        <th>URL</th>
                         <th>Uploaded Date</th>
                         <th>Deadline Date</th>
                         <th>View</th>
@@ -432,7 +431,6 @@
                         <tr>
                             <td><?php echo $c; ?></td>
                             <td><?php echo $row['topicname'] ?></td>
-                            <td><?php echo $row['URL'] ?></td>
                             <td><?php echo $row['uploaded_on'] ?></td>
                             <td><?php echo $row['deadline_no'] ?></td>
                             <td><a href="<?php echo $row['URL']; ?>" target="_blank"><button>View</button></a></td>
@@ -454,7 +452,6 @@
                     <tr>
                         <th>Sr No</th>
                         <th>Topic Name</th>
-                        <th>URL</th>
                         <th>Uploaded Date</th>
                         <th>View</th>
                     </tr>
@@ -466,7 +463,6 @@
                         <tr>
                             <td><?php echo $d; ?></td>
                             <td><?php echo $row['topicname'] ?></td>
-                            <td><?php echo $row['URL'] ?></td>
                             <td><?php echo $row['uploaded_on'] ?></td>
                             <td><a href="<?php echo $row['URL']; ?>" target="_blank"><button>View</button></a></td>
                         </tr>

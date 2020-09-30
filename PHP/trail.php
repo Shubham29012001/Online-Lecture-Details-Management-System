@@ -16,6 +16,9 @@ $_SESSION['updatedeadline'] = $deadline;
 $type = $_GET['type'];
 $_SESSION['type'] = $type;
 
+$link = $_GET['link'];
+$_SESSION['link']=$link;
+
 $token = $_GET['token'];
 $_SESSION['materialtoken'] = $token;
 
